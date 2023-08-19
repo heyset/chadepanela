@@ -1,0 +1,124 @@
+* {
+  margin: 0;
+  padding: 0;
+  border: none;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+}
+
+html, body
+{
+  min-height: 100vh;
+  min-width: 100vw;
+}
+
+h1, h2, h3,
+h4, h5, h6
+{
+  font-weight: 400;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+.main-header
+{
+  display: flex;
+  padding: 0.625rem 1.25rem;
+}
+
+.main-header h1
+{
+  font-size: 1.25rem;
+}
+
+main
+{
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+}
+
+main header h1 {
+  text-align: center;
+}
+
+.gifts
+{
+  max-width: 720px;
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  gap: 3.5rem;
+  align-items: center;
+}
+
+.gifts > h1
+{
+  font-size: 1.5rem;
+}
+
+.gifts ol
+{
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.gift-item
+{
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.gift-item .picture
+{
+  height: 10rem;
+  width: 20rem;
+  max-width: 300px;
+  max-height: 150px;
+  color: #aaa;
+  border: 2px solid #ddd;
+  border-radius: 2px;
+}
+
+.gift-item .description
+{
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.gift-item .amount
+{
+  font-size: 1rem;
+  font-weight: 300;
+}
+
+.gift-item .controls button.choose
+{
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 2px;
+  padding: 0.625rem 1rem;
+  background-color: #ddd;
+  transition: background-color 300ms linear;
+}
+
+.gift-item .controls button.choose:hover
+{
+  background-color: #d0caf0;
+}
+
+
+.gift-item .controls button.already-chosen {
+  background-color: transparent;
+  border: 2px solid #ddd;
+  border-radius: 2px;
+  padding: 0.625rem 1rem;
+  font-size: 1rem;
+  font-weight: 300;
+}

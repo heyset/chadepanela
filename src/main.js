@@ -4,12 +4,17 @@ import * as db from './db.js';
 
 await db.connect();
 
-const all = await db.getAllGifts();
-console.log(all);
+app.get('/gifts', async (req, res) => {
+  const gifts = await db.getAllGifts();
+  res.json({ gifts });
+});
 
-app.get('/test', (req, res) => {
-  console.log('got a request');
-  res.send('ok');
+app.post('/gifts/choose/:id', async (req, res) => {
+  db.chooseGift(req.params.id);
+});
+
+app.use(async (err, req, res, next) => {
+  res.send(`Alguma coisa deu errado :( - manda pro Matheus um print: ${err}`);
 });
 
 const port = process.env.PORT || 3030;
