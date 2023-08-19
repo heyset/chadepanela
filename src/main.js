@@ -1,10 +1,16 @@
 import 'dotenv/config';
-import { app } from "./server.js";
+import { app } from './server.js';
+import * as db from './db.js';
 
-app.get('/', (req, res) => {
+await db.connect();
+
+const all = await db.getAllGifts();
+console.log(all);
+
+app.get('/test', (req, res) => {
   console.log('got a request');
   res.send('ok');
-})
+});
 
 const port = process.env.PORT || 3030;
 
