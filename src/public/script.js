@@ -1,4 +1,4 @@
-const baseUrl = '/';
+const baseUrl = '';
 
 const gifts = new Map();
 
