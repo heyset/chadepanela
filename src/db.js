@@ -8,10 +8,12 @@ let sheets;
 const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyz', 10);
 
 export async function connect() {
+  const privateKey = process.env.PRIVATE_KEY.replace('\\n', '\n');
+
   jwtClient = new google.auth.JWT(
     process.env.CLIENT_EMAIL,
     null,
-    process.env.PRIVATE_KEY,
+    privateKey,
     ['https://www.googleapis.com/auth/spreadsheets'],
   );
   
