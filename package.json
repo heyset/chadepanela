@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node --openssl-legacy-provider ./src/main.js",
+    "start": "NODE_OPTIONS=--openssl-legacy-provider node ./src/main.js",
     "start-dev": "nodemon --ignore ./src/public src/main.js"
   },
   "keywords": [],
