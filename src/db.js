@@ -8,7 +8,9 @@ let sheets;
 const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyz', 10);
 
 export async function connect() {
-  const privateKey = process.env.PRIVATE_KEY.replace('\\n', '\n');
+  const base64Key = process.env.PRIVATE_KEY;
+  const buffer = Buffer.from(base64Key, 'base64');
+  const privateKey = buffer.toString('ascii');
 
   jwtClient = new google.auth.JWT(
     process.env.CLIENT_EMAIL,
