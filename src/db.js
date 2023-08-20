@@ -56,6 +56,10 @@ export async function chooseGift(giftId) {
   return { newCurrent: chosenGift.current };
 }
 
+export function generateId() {
+  return nanoid();
+}
+
 function toGiftObject(row) {
   const [id, description, photo_url, current, maximum] = row;
   return ({
@@ -82,7 +86,7 @@ function parseIntWithDefault(intAsString) {
   const parsed = Number.parseInt(intAsString);
 
   return !Number.isNaN(parsed) ? parsed : 0;
-} 
+}
 
 // Populate IDs
 // const response = await sheets.spreadsheets.values.get({

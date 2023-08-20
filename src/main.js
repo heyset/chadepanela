@@ -13,6 +13,11 @@ app.post('/gifts/choose/:id', async (req, res) => {
   db.chooseGift(req.params.id);
 });
 
+app.get('/new-id', async (req, res) => {
+  const id = db.generateId();
+  res.json({ id });
+});
+
 app.use(async (err, req, res, next) => {
   res.send(`Alguma coisa deu errado :( - manda pro Matheus um print: ${err}`);
 });
