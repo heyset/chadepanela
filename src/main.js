@@ -2,7 +2,6 @@ import 'dotenv/config';
 import { app } from './server.js';
 import * as db from './db.js';
 
-console.log(process.env.PRIVATE_KEY);
 await db.connect();
 
 app.get('/gifts', async (req, res) => {

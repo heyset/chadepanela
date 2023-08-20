@@ -17,14 +17,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 function createGiftElement(giftData) {
-  const { id, description, photo, current, maximum } = giftData;
+  const { id, description, photo_url, current, maximum } = giftData;
 
   const element = document.createElement('li');
   element.className = 'gift-item';
   element.id = id;
   element.innerHTML = `
 <section class="picture">
-  <img src="${photo}" alt="Em breve teremos foto nesse retangulo">
+  <img src="${photo_url}" alt="Em breve teremos foto nesse retangulo">
 </section>
 <section class="description">
   <p>${description}</p>

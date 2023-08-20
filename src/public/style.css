@@ -39,6 +39,7 @@ main
   display: flex;
   flex-direction: column;
   gap: 4rem;
+  padding: 0 0.875rem;
 }
 
 main header h1 {
@@ -77,13 +78,28 @@ main header h1 {
 
 .gift-item .picture
 {
-  height: 10rem;
-  width: 20rem;
-  max-width: 300px;
-  max-height: 150px;
+  height: 280px;
+  width: 360px;
   color: #aaa;
   border: 2px solid #ddd;
   border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media screen and (max-width: 460px)
+{
+  .gift-item .picture
+  {
+    width: 100%;
+  }  
+}
+
+.gift-item .picture img
+{
+  max-height: 100%;
+  max-width: 100%;
 }
 
 .gift-item .description
