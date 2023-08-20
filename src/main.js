@@ -6,7 +6,9 @@ await db.connect();
 
 app.get('/gifts', async (req, res) => {
   const gifts = await db.getAllGifts();
-  res.json({ gifts });
+  res.json({
+    gifts: gifts.sort((a, b) => (a.description < b.description) ? -1 : 1)
+  });
 });
 
 app.post('/gifts/choose/:id', async (req, res) => {
