@@ -72,7 +72,7 @@ function toGiftObject(row) {
 }
 
 function parsePhotoUrl(photoUrl) {
-  if (!photoUrl.includes('drive.google')) {
+  if (!photoUrl?.includes('drive.google')) {
     return photoUrl;
   }
 
