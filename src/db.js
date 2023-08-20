@@ -61,10 +61,21 @@ function toGiftObject(row) {
   return ({
     id,
     description,
-    photo_url,
+    photo_url: parsePhotoUrl(photo_url),
     current: parseIntWithDefault(current),
     maximum: parseIntWithDefault(maximum),
   });
+}
+
+function parsePhotoUrl(photoUrl) {
+  if (!photoUrl.includes('drive.google')) {
+    return photoUrl;
+  }
+
+  const extractedId = photoUrl.match(/(?<=file\/d\/).*(?=\/view)/)[0];
+  const extractedPhotoUrl = `https://drive.google.com/uc?id=${extractedId}`;
+
+  return extractedPhotoUrl;
 }
 
 function parseIntWithDefault(intAsString) {
