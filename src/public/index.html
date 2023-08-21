@@ -12,15 +12,25 @@
 <body>
   <header class="main-header">
     <h1 class="logo"><a href="/">Míriam & Matheus</a></h1>
-    <nav class="navigation-menu">
-      <ul>
-        <li><a href="">Confirmar Presença</a></li>
-        <li><a href="">Detalhes</a></li>
-        <li><a href="">Lista de Presentes</a></li>
-        <li><a href="">Sair</a></li>
-      </ul>
+    <nav id="navigation-menu" class="navigation-menu">
+      <div class="navigation-menu-wrapper">
+        <button id="navigation-menu-button" type="button" class="navigation-menu-button">
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+        </button>
+        <div class="navigation-menu-panel">
+          <ul>
+            <li><a href="">Confirmar Presença</a></li>
+            <li><a href="">Detalhes</a></li>
+            <li><a href="">Lista de Presentes</a></li>
+            <li><a href="">Sair</a></li>
+          </ul>
+        </div>
+      </div>
     </nav>
   </header>
+  <div id="navigation-menu-overlay" class="navigation-menu-overlay"></div>
   <main>
     <header>
       <h1>Chá de Panela</h1>

@@ -33,11 +33,113 @@ body
   padding: 0.625rem 1.25rem;
 }
 
+.navigation-menu
+{
+  position: relative;
+}
+
 .navigation-menu ul
 {
   list-style: none;
   display: flex;
   gap: 1rem;
+}
+
+.navigation-menu-overlay
+{
+  display: none;
+}
+
+@media screen and (max-width: 880px)
+{
+  .navigation-menu
+  {
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 50;
+  }
+
+  .navigation-menu-overlay.shown
+  {
+    display: block;
+    position: absolute;
+    inset: 0;
+    z-index: 40;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  .navigation-menu-wrapper
+  {
+    position: relative;
+  }
+
+  .navigation-menu-panel
+  {
+    background-color: #fff;
+    padding: 2.5rem 2.5rem 1.5rem 1.5rem;
+    border-radius: 2px;
+    transform: translateX(100%);
+    transition: transform 150ms ease-in;
+  }
+
+  .navigation-menu.open .navigation-menu-panel
+  {
+    transform: translateX(0);
+  }
+
+  .navigation-menu ul
+  {
+    font-size: 1.25rem;
+    flex-direction: column;
+  }
+
+  .navigation-menu-button
+  {
+    display: flex;
+    position: absolute;
+    z-index: 10;
+    top: 5px;
+    right: 10px;
+    height: 30px;
+    width: 30px;
+    border-radius: 2px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 2px;
+    cursor: pointer;
+    background-color: #fff;
+    transition: background-color 150ms linear;
+  }
+
+  .navigation-menu-button:hover
+  {
+    background-color: #9faae0;
+  }
+
+  .navigation-menu-button .bar
+  {
+    width: 20px;
+    height: 4px;
+    background-color: #131513;
+    transition: transform 150ms linear;
+  }
+
+  .navigation-menu.open .navigation-menu-button .bar:nth-child(1)
+  {
+    transform: translate(0%, 150%) rotateZ(45deg);
+  }
+  
+  .navigation-menu.open .navigation-menu-button .bar:nth-child(3)
+  {
+    transform: translate(0%, -150%) rotateZ(-45deg);
+  }
+
+  .navigation-menu.open .navigation-menu-button .bar:nth-child(2)
+  {
+    transform: scaleX(0);
+  }
 }
 
 .main-header .logo
@@ -140,7 +242,7 @@ main header h1
   justify-content: center;
 }
 
-@media screen and (max-width: 900px)
+@media screen and (max-width: 880px)
 {
   .gift-item .picture
   {

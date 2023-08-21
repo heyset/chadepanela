@@ -1,20 +1,35 @@
-const baseUrl = '';
+const baseUrl = 'http://localhost:3000';
 
 const gifts = new Map();
 
 document.addEventListener('DOMContentLoaded', async () => {
   console.log("load");
   try {
-    const listContainer = document.getElementById('gift-list-container');
-    const result = await fetch(`${baseUrl}/gifts`).then((res) => res.json());
-    result.gifts.forEach((gift) => gifts.set(gift.id, gift));
-    result.gifts.forEach((gift) => {
-      listContainer.appendChild(createGiftElement(gift));
-    });
+    attachNavigationEventListeners();
+    await loadList();
   } catch (err) {
     document.body.innerHTML = `<p>Alguma coisa deu errado :( - Manda print pro Matheus: ${err}</p>`
   }
 });
+
+async function loadList() {
+  const listContainer = document.getElementById('gift-list-container');
+  const result = await fetch(`${baseUrl}/gifts`).then((res) => res.json());
+  result.gifts.forEach((gift) => gifts.set(gift.id, gift));
+  result.gifts.forEach((gift) => {
+    listContainer.appendChild(createGiftElement(gift));
+  });
+}
+
+function attachNavigationEventListeners() {
+  const navigationButton = document.getElementById('navigation-menu-button');
+  const navigationMenu = document.getElementById('navigation-menu');
+  const navigationMenuOverlay = document.getElementById('navigation-menu-overlay');
+  navigationButton.addEventListener('click', () => {
+    navigationMenu.classList.toggle('open');
+    navigationMenuOverlay.classList.toggle('shown');
+  });
+}
 
 function createGiftElement(giftData) {
   const { id, description, photo_url, current, maximum } = giftData;
