@@ -24,10 +24,24 @@ async function loadList() {
 function attachNavigationEventListeners() {
   const navigationButton = document.getElementById('navigation-menu-button');
   const navigationMenu = document.getElementById('navigation-menu');
-  const navigationMenuOverlay = document.getElementById('navigation-menu-overlay');
+  const navigationMenuOverlays = document.querySelectorAll('.navigation-menu-overlay');
+
   navigationButton.addEventListener('click', () => {
-    navigationMenu.classList.toggle('open');
-    navigationMenuOverlay.classList.toggle('shown');
+    toggleMenuOpen(navigationButton, navigationMenu, navigationMenuOverlays);
+  });
+
+  navigationMenuOverlays.forEach((overlayElement) => {
+    overlayElement.addEventListener('click', () => {
+      toggleMenuOpen(navigationButton, navigationMenu, navigationMenuOverlays);
+    });
+  });
+}
+
+function toggleMenuOpen(navigationButton, navigationMenu, navigationMenuOverlays) {
+  navigationMenu.classList.toggle('open');
+  navigationButton.classList.toggle('open');
+  navigationMenuOverlays.forEach((overlayElement) => {
+    overlayElement.classList.toggle('shown');
   });
 }
 
