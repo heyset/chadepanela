@@ -18,41 +18,79 @@ h4, h5, h6
   font-weight: 400;
 }
 
-body {
+body
+{
   display: flex;
   flex-direction: column;
+  gap: 2rem;
 }
 
 .main-header
 {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 0.625rem 1.25rem;
 }
 
-.main-header h1
+.navigation-menu ul
 {
-  font-size: 1.25rem;
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+}
+
+.main-header .logo
+{
+  font-size: 2rem;
+}
+
+a
+{
+  transition: color 100ms linear;
+  font-family: inherit;
+}
+
+a:visited
+{
+  color: inherit;
+}
+
+a:hover
+{
+  color: #9faae0;
 }
 
 main
 {
   display: flex;
   flex-direction: column;
-  gap: 4rem;
+  gap: 3rem;
   padding: 0 0.875rem;
 }
 
-main header h1 {
+main header h1
+{
   text-align: center;
+}
+
+.logo
+{
+  font-family: 'Tangerine', cursive;
+  font-weight: 700;
+}
+
+.logo a
+{
+  text-decoration: none;
 }
 
 .gifts
 {
-  max-width: 720px;
   align-self: center;
   display: flex;
   flex-direction: column;
-  gap: 3.5rem;
+  gap: 2.5rem;
   align-items: center;
 }
 
@@ -64,9 +102,23 @@ main header h1 {
 .gifts ol
 {
   list-style: none;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 3rem;
+}
+
+@media screen and (max-width: 1350px) {
+  .gifts ol
+  {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media screen and (max-width: 880px) {
+  .gifts ol
+  {
+    grid-template-columns: 1fr;
+  }
 }
 
 .gift-item
@@ -88,7 +140,7 @@ main header h1 {
   justify-content: center;
 }
 
-@media screen and (max-width: 460px)
+@media screen and (max-width: 900px)
 {
   .gift-item .picture
   {
@@ -120,8 +172,8 @@ main header h1 {
   cursor: pointer;
   border-radius: 2px;
   padding: 0.625rem 1rem;
-  background-color: #ddd;
-  transition: background-color 300ms linear;
+  background-color: #eee;
+  transition: background-color 150ms linear;
 }
 
 .gift-item .controls button.choose:hover
