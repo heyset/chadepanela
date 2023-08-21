@@ -22,7 +22,7 @@ body
 {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 0.5rem;
 }
 
 .main-header
@@ -115,7 +115,7 @@ body
 
   .navigation-menu-button:hover
   {
-    background-color: #9faae0;
+    background-color: #cad9f0;
   }
 
   .navigation-menu-button .bar
@@ -160,18 +160,43 @@ a:visited
 
 a:hover
 {
-  color: #9faae0;
+  color: #436088;
+}
+
+.decoration
+{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+}
+
+.decoration img
+{
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
 }
 
 main
 {
   display: flex;
   flex-direction: column;
-  gap: 3rem;
+  gap: 2rem;
   padding: 0 0.875rem;
 }
 
-main header h1
+.page-title-header
+{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.page-title-header h1
 {
   text-align: center;
 }
@@ -280,7 +305,7 @@ main header h1
 
 .gift-item .controls button.choose:hover
 {
-  background-color: #d0caf0;
+  background-color: #cad9f0;
 }
 
 
