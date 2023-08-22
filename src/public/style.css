@@ -289,15 +289,15 @@ body.home-page main section {
   text-align: center;
 }
 
-body.home-page ul {
+body.home-page main ul {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
   align-items: center;
 }
 
-body.home-page ul li,
-body.home-page ul li button {
+body.home-page main ul li,
+body.home-page main ul li button {
   width: 100%;
 }
 
