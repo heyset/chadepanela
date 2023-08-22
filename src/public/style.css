@@ -263,7 +263,7 @@ body.home-page main {
 {
   object-fit: cover;
   width: 100%;
-  max-height: 400px;
+  height: 45vh;
 }
 
 .hero-text-container
@@ -285,8 +285,21 @@ body.home-page main section {
   align-items: center;
   flex-direction: column;
   padding: 0 0.625rem;
-  gap: 2rem;
+  gap: 1.5rem;
   text-align: center;
+}
+
+@media screen and (max-width: 420px)
+{
+  .page-title-header .subtitle .page-title-header h1
+  {
+    font-size: 1.5rem;
+  }
+
+  .page-title-header .hero-main-title
+  {
+    font-size: 3rem;
+  }
 }
 
 body.home-page main ul {
