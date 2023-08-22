@@ -1,50 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/style.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Tangerine:wght@400;700&display=swap" rel="stylesheet"> 
-  <title>Chá de Panela Míriam & Matheus</title>
-</head>
-<body>
-  <header class="main-header">
-    <h1 class="logo"><a href="/">Míriam & Matheus</a></h1>
-    <button id="navigation-menu-button" type="button" class="navigation-menu-button">
-      <div class="bar"></div>
-      <div class="bar"></div>
-      <div class="bar"></div>
-    </button>
-    <div class="navigation-menu-overlay"></div>
-    <nav id="navigation-menu" class="navigation-menu">
-      <div class="navigation-menu-wrapper">
-        <div class="navigation-menu-panel">
-          <ul>
-            <li><a href="">Confirmar Presença</a></li>
-            <li><a href="">Detalhes</a></li>
-            <li><a href="">Lista de Presentes</a></li>
-            <li><a href="">Sair</a></li>
-          </ul>
-        </div>
-      </div>
-    </nav>
+<%- include('../partials/head') %>
+
+<%- include('../partials/header') %>
+
+<main>
+  <header class="page-title-header">
+    <h1>Chá de Panela</h1>
+    <div class="decoration">
+      <img src="/decoration.png" alt="">
+    </div>
   </header>
-  <div class="navigation-menu-overlay"></div>
-  <main>
-    <header class="page-title-header">
-      <h1>Chá de Panela</h1>
-      <div class="decoration">
-        <img src="/decoration.png" alt="">
-      </div>
-    </header>
-    <section class="gifts">
-      <h1>Lista de Presentes</h1>
-      <ol id="gift-list-container">
-      </ol>
-    </section>
-  </main>
-</body>
-<script src="/script.js" defer></script>
-</html>
+  <section class="gifts">
+    <h1>Lista de Presentes</h1>
+    <ol id="gift-list-container">
+    </ol>
+  </section>
+</main>
+
+<%- include('../partials/footer') %>
