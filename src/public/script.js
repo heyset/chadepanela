@@ -1,4 +1,4 @@
-const baseUrl = '';
+const baseUrl = '/api';
 
 const gifts = new Map();
 
