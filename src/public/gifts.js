@@ -43,7 +43,7 @@ function createGiftElement(giftData) {
 
   if (current < maximum) {
     controlButton = document.createElement('button');
-    controlButton.className = 'choose';
+    controlButton.className = 'default-button';
     controlButton.dataset.giftId = id;
     controlButton.type = 'button';
     controlButton.innerHTML = 'Escolher presente';
@@ -70,7 +70,7 @@ async function chooseGift(event) {
   const currentAmount = document.querySelector(`#${gift.id} .amount .current`);
   currentAmount.innerHTML = gift.current;
 
-  const controlButton = document.querySelector(`#${gift.id} .controls button.choose`);
+  const controlButton = document.querySelector(`#${gift.id} .controls button.default-button`);
   if (gift.current >= gift.maximum)
   {
     controlButton.className = 'already-chosen';

@@ -10,6 +10,7 @@ export const app = express();
 app.use(helmet({
   contentSecurityPolicy: {
     directives: {
+      connectSrc: ["'self'", 'ws://127.0.0.1:35729/livereload'],
       imgSrc: '*',
     },
   },
@@ -23,7 +24,16 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(process.cwd(), 'src', 'views'));
 
 app.get('/', async (req, res) => {
+  res.render('pages/home');
+});
+
+app.get('/presentes', async (req, res) => {
   res.render('pages/gift-list');
+});
+
+app.get('/csp-report', (req, res) => {
+  console.log(req);
+  res.send('ok');
 });
 
 app.use(async (err, req, res, next) => {

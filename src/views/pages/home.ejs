@@ -1,14 +1,34 @@
+<%- include('../partials/head') %>
+<body class="home-page">
+<%- include('../partials/header') %>
 
 <main>
   <header class="page-title-header">
-    <h1>Chá de Panela</h1>
-    <div class="decoration">
-      <img src="/decoration.png" alt="">
+    <div class="hero-container">
+      <div class="hero-text-container">
+        <h2 class="subtitle">Chá de Panela</h2>
+        <div class="decoration">
+          <img src="/decoration.png" alt="">
+        </div>
+        <h1 class="hero-main-title logo">
+          Miriam & Matheus
+        </h1>
+      </div>
+      <img src="/foto-nossa-romantica.jpg" class="hero-splash"/>
     </div>
   </header>
-  <section class="gifts">
-    <h1>Lista de Presentes</h1>
-    <ol id="gift-list-container">
-    </ol>
+  <section>
+    <h1>Olá, {convidado}!</h1>
+    <p>É com muita alegria que convidamos você a participar conosco deste momento tão importante e descontraído.</p>
+    <p>Podemos contar com sua presença? :)</p>
+
+    <ul>
+      <li><button type="button" class="default-button"><a href="/">Confirmar Presença</a></button></li>
+      <li><button type="button" class="default-button"><a href="/">Detalhes</a></button></li>
+      <li><button type="button" class="default-button"><a href="/presentes">Lista de Presentes</a></button></li>
+    </ul>
   </section>
 </main>
+
+<%- include('../partials/footer') %>
+</body>
