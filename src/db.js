@@ -2,6 +2,8 @@ import 'dotenv/config';
 import { customAlphabet } from 'nanoid';
 import { google } from 'googleapis';
 
+import { BusinessLogicError } from './business-logic-error.js';
+
 let jwtClient;
 let sheets;
 
@@ -39,7 +41,10 @@ export async function chooseGift(giftId) {
   const chosenGiftIndex = gifts.findIndex(({ id }) => id === giftId);
   const chosenGift = gifts[chosenGiftIndex];
   if (chosenGift.current >= chosenGift.maximum) {
-    throw new Error("Cannot choose this gift, it has already reached maximum");
+    throw new BusinessLogicError({
+      message: 'Cannot choose this gift, it has already reached maximum',
+      code: 1,
+    });
   }
 
   chosenGift.current += 1;

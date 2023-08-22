@@ -3,9 +3,7 @@ const baseUrl = '/api';
 const gifts = new Map();
 
 document.addEventListener('DOMContentLoaded', async () => {
-  console.log("load");
   try {
-    attachNavigationEventListeners();
     await loadList();
   } catch (err) {
     document.body.innerHTML = `<p>Alguma coisa deu errado :( - Manda print pro Matheus: ${err}</p>`
@@ -18,30 +16,6 @@ async function loadList() {
   result.gifts.forEach((gift) => gifts.set(gift.id, gift));
   result.gifts.forEach((gift) => {
     listContainer.appendChild(createGiftElement(gift));
-  });
-}
-
-function attachNavigationEventListeners() {
-  const navigationButton = document.getElementById('navigation-menu-button');
-  const navigationMenu = document.getElementById('navigation-menu');
-  const navigationMenuOverlays = document.querySelectorAll('.navigation-menu-overlay');
-
-  navigationButton.addEventListener('click', () => {
-    toggleMenuOpen(navigationButton, navigationMenu, navigationMenuOverlays);
-  });
-
-  navigationMenuOverlays.forEach((overlayElement) => {
-    overlayElement.addEventListener('click', () => {
-      toggleMenuOpen(navigationButton, navigationMenu, navigationMenuOverlays);
-    });
-  });
-}
-
-function toggleMenuOpen(navigationButton, navigationMenu, navigationMenuOverlays) {
-  navigationMenu.classList.toggle('open');
-  navigationButton.classList.toggle('open');
-  navigationMenuOverlays.forEach((overlayElement) => {
-    overlayElement.classList.toggle('shown');
   });
 }
 
@@ -91,18 +65,21 @@ function createGiftElement(giftData) {
 async function chooseGift(event) {
   const id = event.target.dataset.giftId;
   const gift = gifts.get(id);
-  gift.current += 1;
 
+  gift.current += 1;
   const currentAmount = document.querySelector(`#${gift.id} .amount .current`);
   currentAmount.innerHTML = gift.current;
 
+  const controlButton = document.querySelector(`#${gift.id} .controls button.choose`);
   if (gift.current >= gift.maximum)
   {
-    const controlButton = document.querySelector(`#${gift.id} .controls button.choose`);
     controlButton.className = 'already-chosen';
     controlButton.innerHTML = 'Este presente já foi escolhido';
     controlButton.removeEventListener('click', chooseGift);
   }
-
-  await fetch(`${baseUrl}/gifts/choose/${id}`, { method: 'POST' });
+  
+  const response = await fetch(`${baseUrl}/gifts/choose/${id}`, { method: 'POST' }).then((res) => res.json());
+  if (!response.ok && response.error.code === 1) {
+    alert('Este presente acabou de ser escolhido por outra pessoa! Recarregue a página');
+  }
 }

@@ -3,6 +3,7 @@ import helmet from 'helmet';
 import cors from 'cors';
 import path from 'path';
 import * as db from './db.js';
+import { BusinessLogicError } from './business-logic-error.js';
 
 export const app = express();
 
@@ -25,6 +26,13 @@ app.get('/', async (req, res) => {
   res.render('pages/gift-list');
 });
 
+app.use(async (err, req, res, next) => {
+  res.status(
+    err instanceof BusinessLogicError ? 400 : 500
+  );
+  res.send(`Alguma coisa deu errado :( - manda pro Matheus um print: ${err}`);
+});
+
 app.get('/api/gifts', async (req, res) => {
   const gifts = await db.getAllGifts();
   res.json({
@@ -32,8 +40,8 @@ app.get('/api/gifts', async (req, res) => {
   });
 });
 
-app.post('api/gifts/choose/:id', async (req, res) => {
-  db.chooseGift(req.params.id);
+app.post('/api/gifts/choose/:id', async (req, res) => {
+  await db.chooseGift(req.params.id);
 });
 
 app.get('/api/new-id', async (req, res) => {
@@ -42,5 +50,11 @@ app.get('/api/new-id', async (req, res) => {
 });
 
 app.use(async (err, req, res, next) => {
-  res.send(`Alguma coisa deu errado :( - manda pro Matheus um print: ${err}`);
+  if (err instanceof BusinessLogicError) {
+    res.status(400);
+  } else {
+    res.status(500);
+    console.log(err);
+  }
+  res.json({ error: { message: err.message, code: err.code } });
 });
