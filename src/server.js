@@ -52,9 +52,28 @@ app.use(async (err, req, res, next) => {
 
 // api
 
+app.use(async (req, res, next) => {
+  const key = req.headers.authorization;
+  if (!key)
+  {
+    res.status(401);
+    return res.json({ error: { message: 'Unauthorized', code: 401 } })
+  }
+
+  const isKeyValid = await db.verifyKey(key);
+  if (!isKeyValid)
+  {
+    res.status(403);
+    return res.json({ error: { message: 'Forbidden', code: 403 } });
+  }
+
+  next();
+});
+
 app.get('/api/gifts', async (req, res) => {
   const gifts = await db.getAllGifts();
   res.json({
+    ok: true,
     gifts: gifts.sort((a, b) => (a.description < b.description) ? -1 : 1)
   });
 });

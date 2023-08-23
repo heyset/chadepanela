@@ -29,7 +29,7 @@ export async function getAllGifts() {
   const response = await sheets.spreadsheets.values.get({
     auth: jwtClient,
     spreadsheetId: process.env.SPREADSHEET_ID,
-    range: ['A2:E'],
+    range: ['Presentes!A2:E'],
   });
 
   return response.data.values.map(toGiftObject);
@@ -54,7 +54,7 @@ export async function chooseGift(giftId) {
     auth: jwtClient,
     spreadsheetId: process.env.SPREADSHEET_ID,
     valueInputOption: 'RAW',
-    range: [`D${rowNumber}`],
+    range: [`Presentes!D${rowNumber}`],
     requestBody: { values: [[chosenGift.current]] }
   });
 
@@ -63,6 +63,23 @@ export async function chooseGift(giftId) {
 
 export function generateId() {
   return nanoid();
+}
+
+export async function verifyKey(key) {
+  const response = await sheets.spreadsheets.values.get({
+    auth: jwtClient,
+    spreadsheetId: process.env.SPREADSHEET_ID,
+    range: ['Convidados!E2:E'],
+    sheets: []
+  });
+
+  if (!response.data?.values?.length)
+  {
+    return false;
+  }
+
+  const keys = response.data.values.flat();
+  return keys.findIndex((existingKey) => existingKey === key) !== -1;
 }
 
 function toGiftObject(row) {
