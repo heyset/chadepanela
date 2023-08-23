@@ -274,6 +274,11 @@ main
   font-size: 1.75rem;
 }
 
+main
+{
+  flex: 1;
+}
+
 main section
 {
   display: flex;
@@ -326,13 +331,21 @@ main .sub-section
   opacity: 0.7;
 }
 
-body.home-page {
+body.home-page
+{
   gap: 0;
 }
 
-body.home-page main {
+body.home-page main
+{
   padding: 0;
 }
+
+body.home-page footer
+{
+  margin-top: 20px;
+}
+
 .hero-container
 {
   display: flex;

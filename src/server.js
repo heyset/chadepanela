@@ -31,6 +31,10 @@ app.get('/', async (req, res) => {
   res.render('pages/home');
 });
 
+app.get('/entrar', async (req, res) => {
+  res.render('pages/login');
+});
+
 app.get('/presentes', async (req, res) => {
   res.render('pages/gift-list');
 });
