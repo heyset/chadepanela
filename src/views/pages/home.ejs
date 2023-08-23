@@ -1,6 +1,7 @@
 <%- include('../partials/head') %>
 <body class="home-page">
 <%- include('../partials/header') %>
+<script src="/fetch-name.js"></script>
 
 <main>
   <header class="page-title-header">
@@ -17,8 +18,9 @@
       <img src="/foto-nossa-romantica.jpg" class="hero-splash"/>
     </div>
   </header>
-  <section>
-    <h1>Olá, {convidado}!</h1>
+  <section id="home-main-section" class="hidden">
+    <h1>Olá, <span id="guest-name">amigo(a)</span>!</h1>
+    <p class="hidden" id="special-message"></p>
     <p>É com muita alegria que convidamos você a participar conosco deste momento tão importante e descontraído.</p>
     <p>Podemos contar com sua presença? :)</p>
 

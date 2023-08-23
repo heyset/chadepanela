@@ -60,12 +60,14 @@ app.use(async (req, res, next) => {
     return res.json({ error: { message: 'Unauthorized', code: 401 } })
   }
 
-  const isKeyValid = await db.verifyKey(key);
-  if (!isKeyValid)
+  const guest = await db.findGuest(key);
+  if (!guest)
   {
     res.status(403);
     return res.json({ error: { message: 'Forbidden', code: 403 } });
   }
+
+  res.locals.guest = guest;
 
   next();
 });
@@ -85,6 +87,18 @@ app.post('/api/gifts/choose/:id', async (req, res) => {
 app.get('/api/new-id', async (req, res) => {
   const id = db.generateId();
   res.json({ id });
+});
+
+app.get('/api/guest-name', async (req, res) => {
+  const { guest } = res.locals;
+  res.json({
+    ok: true,
+    guest: {
+      name: guest.name,
+      surname: guest.surname,
+      specialMessage: guest.specialMessage,
+    },
+  });
 });
 
 app.use(async (err, req, res, next) => {

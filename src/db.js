@@ -65,11 +65,11 @@ export function generateId() {
   return nanoid();
 }
 
-export async function verifyKey(key) {
+export async function findGuest(key) {
   const response = await sheets.spreadsheets.values.get({
     auth: jwtClient,
     spreadsheetId: process.env.SPREADSHEET_ID,
-    range: ['Convidados!E2:E'],
+    range: ['Convidados!A2:F'],
     sheets: []
   });
 
@@ -78,8 +78,22 @@ export async function verifyKey(key) {
     return false;
   }
 
-  const keys = response.data.values.flat();
-  return keys.findIndex((existingKey) => existingKey === key) !== -1;
+  const guestColumns = response.data.values.find((guestData) => guestData[4] === key);
+
+  if (!guestColumns) {
+    return null;
+  }
+
+  const guest = {
+    name: guestColumns[0],
+    surname: guestColumns[1],
+    notes: guestColumns[2],
+    contact: guestColumns[3],
+    key: guestColumns[4],
+    specialMessage: guestColumns[5],
+  };
+
+  return guest;
 }
 
 function toGiftObject(row) {
