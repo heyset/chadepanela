@@ -23,8 +23,6 @@ async function fetchPersonName()
   const guestName = document.getElementById('guest-name');
   guestName.innerHTML = guest.name;
 
-  console.log(response.guest);
-
   if (guest.specialMessage) {
     const specialMessage = document.getElementById('special-message');
     specialMessage.innerHTML = guest.specialMessage;

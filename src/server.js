@@ -101,6 +101,10 @@ app.get('/api/guest-name', async (req, res) => {
   });
 });
 
+app.post('/api/login', async (req, res) => {
+  res.json({ ok: true });
+});
+
 app.use(async (err, req, res, next) => {
   if (err instanceof BusinessLogicError) {
     res.status(400);

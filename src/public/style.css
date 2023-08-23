@@ -550,6 +550,31 @@ section.details
   height: 100%;
 }
 
+.login-page main
+{
+  max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.login-page form
+{
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.login-page form input
+{
+  border: 2px solid #eee;
+  padding: 0.75rem 1.25rem;
+}
+
+.login-page form input:focus-visible
+{
+  outline: 2px solid #cad9f0;
+}
+
 .default-button
 {
   font-size: 1rem;

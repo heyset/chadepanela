@@ -20,6 +20,14 @@ function attachNavigationEventListeners() {
       toggleMenuOpen(navigationButton, navigationMenu, navigationMenuOverlays);
     });
   });
+
+  const logoutLink = document.getElementById('logout');
+  logoutLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    console.log(window.location.host);
+    localStorage.removeItem('key');
+    window.location.href = '/entrar';
+  });
 }
 
 function toggleMenuOpen(navigationButton, navigationMenu, navigationMenuOverlays) {
