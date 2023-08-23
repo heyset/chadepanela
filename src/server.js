@@ -7,6 +7,8 @@ import { BusinessLogicError } from './business-logic-error.js';
 
 export const app = express();
 
+// config
+
 app.use(helmet({
   contentSecurityPolicy: {
     directives: {
@@ -20,6 +22,8 @@ app.use(cors());
 
 app.use(express.static(path.join(process.cwd(), 'src', 'public')));
 
+// views
+
 app.set('view engine', 'ejs');
 app.set('views', path.join(process.cwd(), 'src', 'views'));
 
@@ -31,9 +35,8 @@ app.get('/presentes', async (req, res) => {
   res.render('pages/gift-list');
 });
 
-app.get('/csp-report', (req, res) => {
-  console.log(req);
-  res.send('ok');
+app.get('/detalhes', async (req, res) => {
+  res.render('pages/details');
 });
 
 app.use(async (err, req, res, next) => {
@@ -42,6 +45,8 @@ app.use(async (err, req, res, next) => {
   );
   res.send(`Alguma coisa deu errado :( - manda pro Matheus um print: ${err}`);
 });
+
+// api
 
 app.get('/api/gifts', async (req, res) => {
   const gifts = await db.getAllGifts();
