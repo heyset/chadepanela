@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 function attachNavigationEventListeners() {
   const navigationButton = document.getElementById('navigation-menu-button');
   const navigationMenu = document.getElementById('navigation-menu');
-  const navigationMenuPanel = document.getElementById('navigation-menu-panel');
+  const navigationMenuPanel = document.querySelector('.navigation-menu-panel');
   const navigationMenuOverlays = document.querySelectorAll('.navigation-menu-overlay');
 
   navigationButton.addEventListener('click', () => {
