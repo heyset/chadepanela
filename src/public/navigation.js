@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 function attachNavigationEventListeners() {
   const navigationButton = document.getElementById('navigation-menu-button');
   const navigationMenu = document.getElementById('navigation-menu');
+  const navigationMenuPanel = document.getElementById('navigation-menu-panel');
   const navigationMenuOverlays = document.querySelectorAll('.navigation-menu-overlay');
 
   navigationButton.addEventListener('click', () => {
@@ -20,7 +21,7 @@ function attachNavigationEventListeners() {
       toggleMenuOpen(navigationButton, navigationMenu, navigationMenuOverlays);
     });
 
-    navigationMenu.classList.remove('hidden');
+    navigationMenuPanel.classList.remove('hidden');
   });
 
   const logoutLink = document.getElementById('logout');
