@@ -73,15 +73,26 @@ app.use(async (req, res, next) => {
 });
 
 app.get('/api/gifts', async (req, res) => {
-  const gifts = await db.getAllGifts();
+  const { gifts, gifters } = await db.getAllGifts();
+  let amountChosenByUser = 0;
+  gifts.forEach((gift) => {
+    if (gifters.get(gift.id)?.has(res.locals.guest.key)) {
+      gift.chosenByUser = true;
+      amountChosenByUser += 1;
+    } else {
+      gift.chosenByUser = false;
+    }
+  });
+
   res.json({
     ok: true,
-    gifts: gifts.sort((a, b) => (a.description < b.description) ? -1 : 1)
+    gifts: gifts.sort((a, b) => (a.description < b.description) ? -1 : 1),
+    userCanChooseMore: amountChosenByUser < 3,
   });
 });
 
 app.post('/api/gifts/choose/:id', async (req, res) => {
-  await db.chooseGift(req.params.id);
+  await db.chooseGift(req.params.id, res.locals.guest.key);
 });
 
 app.get('/api/new-id', async (req, res) => {

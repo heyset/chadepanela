@@ -31,12 +31,12 @@ async function loadList() {
 
   response.gifts.forEach((gift) => gifts.set(gift.id, gift));
   response.gifts.forEach((gift) => {
-    listContainer.appendChild(createGiftElement(gift));
+    listContainer.appendChild(createGiftElement(gift, response.userCanChooseMore));
   });
 }
 
-function createGiftElement(giftData) {
-  const { id, description, photo_url, current, maximum } = giftData;
+function createGiftElement(giftData, userCanChooseMore) {
+  const { id, description, photo_url, current, maximum, chosenByUser } = giftData;
 
   const element = document.createElement('li');
   element.className = 'gift-item';
@@ -47,25 +47,41 @@ function createGiftElement(giftData) {
 </section>
 <section class="description">
   <p>${description}</p>
-</section>
-<section class="amount">
-  <p>Escolhidos: <span><span class="current">${current}</span> / ${maximum}</span></p>
 </section>`;
+
+  const chosenSection = document.createElement('section');
+  chosenSection.className = 'amount';
+  const paragraph = document.createElement('p');
+  paragraph.innerHTML = `Escolhidos: <span><span class="current">${current}</span> / ${maximum}</span>`;
+  
+  if (chosenByUser === true) {
+    paragraph.insertAdjacentHTML('beforeend', `<span> - Você já escolheu este presente</span>`);
+  }
+
+  chosenSection.appendChild(paragraph);
+  element.appendChild(chosenSection);
 
   const controlsSection = document.createElement('section');
   controlsSection.className = 'controls';
 
-  let controlButton;
+  const controlButton = document.createElement('button');
 
-  if (current < maximum) {
-    controlButton = document.createElement('button');
+  if (chosenByUser === true) {
+    controlButton.className = 'default-button';
+    controlButton.dataset.giftId = id;
+    controlButton.type = 'button';
+    controlButton.innerHTML = 'Mudar de ideia';
+  } else if (userCanChooseMore === false) {
+    controlButton.className = 'already-chosen';
+    controlButton.type = 'button';
+    controlButton.innerHTML = 'Você já escolheu o máximo de presentes :)';
+  } else if (current < maximum) {
     controlButton.className = 'default-button';
     controlButton.dataset.giftId = id;
     controlButton.type = 'button';
     controlButton.innerHTML = 'Escolher presente';
     controlButton.addEventListener('click', chooseGift);
   } else {
-    controlButton = document.createElement('button');
     controlButton.className = 'already-chosen';
     controlButton.type = 'button';
     controlButton.innerHTML = 'Este presente já foi escolhido';

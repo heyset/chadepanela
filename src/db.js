@@ -26,16 +26,29 @@ export async function connect() {
 }
 
 export async function getAllGifts() {
-  const response = await sheets.spreadsheets.values.get({
+  const response = await sheets.spreadsheets.values.batchGet({
     auth: jwtClient,
     spreadsheetId: process.env.SPREADSHEET_ID,
-    range: ['Presentes!A2:E'],
+    ranges: [
+      'Presentes!A2:E',
+      'ConvidadosPresentes!A2:B',
+    ],
   });
 
-  return response.data.values.map(toGiftObject);
+  const gifts = response.data.valueRanges[0].values.map(toGiftObject);
+  const gifters = response.data.valueRanges[1].values.reduce((map, [giftId, guestKey]) => {
+    if (map.has(giftId)) {
+      map.get(giftId).add(guestKey);
+    } else {
+      map.set(giftId, new Set([guestKey]));
+    }
+    return map;
+  }, new Map());
+
+  return { gifts, gifters };
 }
 
-export async function chooseGift(giftId) {
+export async function chooseGift(giftId, guestKey) {
   const gifts = await getAllGifts();
 
   const chosenGiftIndex = gifts.findIndex(({ id }) => id === giftId);
