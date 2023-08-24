@@ -19,6 +19,8 @@ function attachNavigationEventListeners() {
     overlayElement.addEventListener('click', () => {
       toggleMenuOpen(navigationButton, navigationMenu, navigationMenuOverlays);
     });
+
+    navigationMenu.classList.remove('hidden');
   });
 
   const logoutLink = document.getElementById('logout');
