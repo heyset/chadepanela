@@ -31,35 +31,28 @@ export async function getAllGifts() {
     spreadsheetId: process.env.SPREADSHEET_ID,
     ranges: [
       'Presentes!A2:E',
-      'ConvidadosPresentes!A2:B',
+      'PresentesConvidados!A2:B',
     ],
   });
 
   const gifts = response.data.valueRanges[0].values.map(toGiftObject);
-  const gifters = response.data.valueRanges[1].values.reduce((map, [giftId, guestKey]) => {
+  const gifters = response.data.valueRanges[1].values ? response.data.valueRanges[1].values.reduce((map, [giftId, guestKey]) => {
     if (map.has(giftId)) {
       map.get(giftId).add(guestKey);
     } else {
       map.set(giftId, new Set([guestKey]));
     }
     return map;
-  }, new Map());
+  }, new Map()) : new Map();
 
   return { gifts, gifters };
 }
 
 export async function chooseGift(giftId, guestKey) {
-  const gifts = await getAllGifts();
+  const { gifts } = await getAllGifts();
 
   const chosenGiftIndex = gifts.findIndex(({ id }) => id === giftId);
   const chosenGift = gifts[chosenGiftIndex];
-  if (chosenGift.current >= chosenGift.maximum) {
-    throw new BusinessLogicError({
-      message: 'Cannot choose this gift, it has already reached maximum',
-      code: 1,
-    });
-  }
-
   chosenGift.current += 1;
   const rowNumber = chosenGiftIndex + 2;
 
@@ -69,6 +62,14 @@ export async function chooseGift(giftId, guestKey) {
     valueInputOption: 'RAW',
     range: [`Presentes!D${rowNumber}`],
     requestBody: { values: [[chosenGift.current]] }
+  });
+
+  await sheets.spreadsheets.values.append({
+      auth: jwtClient,
+      spreadsheetId: process.env.SPREADSHEET_ID,
+      valueInputOption: 'RAW',
+      range: ['PresentesConvidados'],
+      resource: { values: [[giftId, guestKey]] },
   });
 
   return { newCurrent: chosenGift.current };

@@ -92,7 +92,29 @@ app.get('/api/gifts', async (req, res) => {
 });
 
 app.post('/api/gifts/choose/:id', async (req, res) => {
-  await db.chooseGift(req.params.id, res.locals.guest.key);
+  const giftId = req.params.id;
+  const guestKey = res.locals.guest.key;
+  const { gifts, gifters } = await db.getAllGifts();
+
+  const timesGuestHasChosenAGift = [...gifters.values()].flatMap((set) => [...set]).reduce((count, key) => { if(key === guestKey) { count += 1; } return count; }, 0);
+
+  if (timesGuestHasChosenAGift > 2) {
+    throw new BusinessLogicError({
+      message: 'Cannot choose more gifts. User has already chosen the maximum of 3.',
+      code: 2,
+    });
+  }
+  
+  const chosenGiftIndex = gifts.findIndex(({ id }) => id === giftId);
+  const chosenGift = gifts[chosenGiftIndex];
+  if (chosenGift.current >= chosenGift.maximum) {
+    throw new BusinessLogicError({
+      message: 'Cannot choose this gift, it has already reached maximum',
+      code: 1,
+    });
+  }
+
+  await db.chooseGift(giftId, guestKey);
 });
 
 app.get('/api/new-id', async (req, res) => {

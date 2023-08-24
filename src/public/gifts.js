@@ -29,14 +29,15 @@ async function loadList() {
     return;
   }
 
-  response.gifts.forEach((gift) => gifts.set(gift.id, gift));
   response.gifts.forEach((gift) => {
-    listContainer.appendChild(createGiftElement(gift, response.userCanChooseMore));
+    const giftAndElements = { gift };
+    gifts.set(gift.id, giftAndElements);
+    listContainer.appendChild(createGiftElement(giftAndElements, response.userCanChooseMore));
   });
 }
 
-function createGiftElement(giftData, userCanChooseMore) {
-  const { id, description, photo_url, current, maximum, chosenByUser } = giftData;
+function createGiftElement(giftAndElements, userCanChooseMore) {
+  const { id, description, photo_url, current, maximum, chosenByUser } = giftAndElements.gift;
 
   const element = document.createElement('li');
   element.className = 'gift-item';
@@ -54,9 +55,13 @@ function createGiftElement(giftData, userCanChooseMore) {
   const paragraph = document.createElement('p');
   paragraph.innerHTML = `Escolhidos: <span><span class="current">${current}</span> / ${maximum}</span>`;
   
+  const chosenNotice = document.createElement('span');
+  chosenNotice.innerHTML = '<span> - Você já escolheu este presente</span>';
+  chosenNotice.classList.add('hidden');
   if (chosenByUser === true) {
-    paragraph.insertAdjacentHTML('beforeend', `<span> - Você já escolheu este presente</span>`);
+    chosenNotice.classList.remove('hidden');
   }
+  paragraph.appendChild(chosenNotice);
 
   chosenSection.appendChild(paragraph);
   element.appendChild(chosenSection);
@@ -91,24 +96,27 @@ function createGiftElement(giftData, userCanChooseMore) {
 
   element.appendChild(controlsSection);
 
+  giftAndElements.controlButton = controlButton;
+  giftAndElements.chosenParagraph = paragraph;
+  giftAndElements.chosenNotice = chosenNotice;
+
   return element;
 }
 
 async function chooseGift(event) {
   const id = event.target.dataset.giftId;
-  const gift = gifts.get(id);
+  const { gift, chosenNotice, controlButton } = gifts.get(id);
 
   gift.current += 1;
   const currentAmount = document.querySelector(`#${gift.id} .amount .current`);
   currentAmount.innerHTML = gift.current;
 
-  const controlButton = document.querySelector(`#${gift.id} .controls button.default-button`);
-  if (gift.current >= gift.maximum)
-  {
-    controlButton.className = 'already-chosen';
-    controlButton.innerHTML = 'Este presente já foi escolhido';
-    controlButton.removeEventListener('click', chooseGift);
-  }
+  controlButton.className = 'default-button';
+  controlButton.dataset.giftId = id;
+  controlButton.type = 'button';
+  controlButton.innerHTML = 'Mudar de ideia';
+
+  chosenNotice.classList.remove('hidden');
   
   const response = await fetch(
     `${baseUrl}/gifts/choose/${id}`,
@@ -117,6 +125,8 @@ async function chooseGift(event) {
   if (!response.ok) {
     if (response.error.code === 1) {
       alert('Este presente acabou de ser escolhido por outra pessoa! Recarregue a página');
+    } else if (response.error.code === 2) {
+      alert('Opa, parece que alguma coisa deu errado :( - tente recarregar a página');
     }
     if (response.error.code === 401 || response.error.code === 403)
     {
