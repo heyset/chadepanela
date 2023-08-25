@@ -20,8 +20,6 @@ function attachNavigationEventListeners() {
     overlayElement.addEventListener('click', () => {
       toggleMenuOpen(navigationButton, navigationMenu, navigationMenuOverlays);
     });
-
-    navigationMenuPanel.classList.remove('hidden');
   });
 
   const logoutLink = document.getElementById('logout');
@@ -31,6 +29,8 @@ function attachNavigationEventListeners() {
     localStorage.removeItem('key');
     window.location.href = '/entrar';
   });
+
+  navigationMenuPanel.classList.remove('hidden');
 }
 
 function toggleMenuOpen(navigationButton, navigationMenu, navigationMenuOverlays) {

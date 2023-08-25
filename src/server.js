@@ -12,6 +12,7 @@ export const app = express();
 app.use(helmet({
   contentSecurityPolicy: {
     directives: {
+      upgradeInsecureRequests: null,
       connectSrc: ["'self'", 'ws://127.0.0.1:35729/livereload'],
       imgSrc: '*',
     },
@@ -50,7 +51,7 @@ app.use(async (err, req, res, next) => {
   res.send(`Alguma coisa deu errado :( - manda pro Matheus um print: ${err}`);
 });
 
-// api
+// // api
 
 app.use(async (req, res, next) => {
   const key = req.headers.authorization;

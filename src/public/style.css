@@ -9,11 +9,11 @@
 html, body
 {
   min-height: 100vh;
-  width: 100vw;
 }
 
 body {
   overflow-x: hidden;
+  max-width: 100vw;
 }
 
 .hidden
@@ -82,6 +82,7 @@ footer p
 .navigation-menu
 {
   position: relative;
+  overflow-x: hidden;
 }
 
 .navigation-menu-wrapper
