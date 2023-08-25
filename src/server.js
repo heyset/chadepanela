@@ -9,17 +9,18 @@ export const app = express();
 
 // config
 
-// app.use(helmet({
-//   contentSecurityPolicy: {
-//     directives: {
-//       upgradeInsecureRequests: null,
-//       connectSrc: ["'self'", 'ws://127.0.0.1:35729/livereload'],
-//       imgSrc: '*',
-//     },
-//   },
-// }));
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      upgradeInsecureRequests: null,
+      connectSrc: ["'self'", 'ws://127.0.0.1:35729/livereload'],
+      frameSrc: ["'self'", 'https://www.google.com/maps/embed/'],
+      imgSrc: '*',
+    },
+  },
+}));
 
-// app.use(cors());
+app.use(cors());
 
 app.use(express.static(path.join(process.cwd(), 'src', 'public')));
 
