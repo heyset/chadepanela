@@ -74,10 +74,10 @@ app.use(async (req, res, next) => {
 });
 
 app.get('/api/gifts', async (req, res) => {
-  const { gifts, gifters } = await db.getAllGifts();
+  const { gifts, giftGiftersMap } = await db.getAllGifts();
   let amountChosenByUser = 0;
   gifts.forEach((gift) => {
-    if (gifters.get(gift.id)?.has(res.locals.guest.key)) {
+    if (giftGiftersMap.get(gift.id)?.has(res.locals.guest.key)) {
       gift.chosenByUser = true;
       amountChosenByUser += 1;
     } else {
@@ -92,12 +92,21 @@ app.get('/api/gifts', async (req, res) => {
   });
 });
 
-app.post('/api/gifts/choose/:id', async (req, res) => {
+app.post('/api/gifts/choice/:id', async (req, res) => {
   const giftId = req.params.id;
   const guestKey = res.locals.guest.key;
-  const { gifts, gifters } = await db.getAllGifts();
+  const { gifts, giftGiftersMap } = await db.getAllGifts();
 
-  const timesGuestHasChosenAGift = [...gifters.values()].flatMap((set) => [...set]).reduce((count, key) => { if(key === guestKey) { count += 1; } return count; }, 0);
+  const userHasAlreadyChosenThisGift = giftGiftersMap.get(giftId)?.has(guestKey) || false;
+
+  if (userHasAlreadyChosenThisGift) {
+    throw new BusinessLogicError({
+      message: 'Cannot choose this gift. User has already chosen it.',
+      code: 3,
+    });
+  }
+
+  const timesGuestHasChosenAGift = [...giftGiftersMap.values()].flatMap((set) => [...set]).reduce((count, key) => { if(key === guestKey) { count += 1; } return count; }, 0);
 
   if (timesGuestHasChosenAGift > 2) {
     throw new BusinessLogicError({
@@ -115,7 +124,25 @@ app.post('/api/gifts/choose/:id', async (req, res) => {
     });
   }
 
-  await db.chooseGift(giftId, guestKey);
+  const newCurrent = await db.chooseGift(giftId, guestKey);
+
+  res.json({ newCurrent, ok: true });
+});
+
+app.delete('/api/gifts/choice/:id', async (req, res) => {
+  const giftId = req.params.id;
+  const guestKey = res.locals.guest.key;
+  const { giftGiftersMap } = await db.getAllGifts();
+
+  const userHasChosenGift = giftGiftersMap.get(giftId)?.has(guestKey) || false;
+
+  if (!userHasChosenGift) {
+    return res.json({ ok:true });
+  }
+
+  await db.unchooseGift(giftId, guestKey);
+
+  res.json({ ok: true });
 });
 
 app.get('/api/new-id', async (req, res) => {

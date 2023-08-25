@@ -36,7 +36,7 @@ export async function getAllGifts() {
   });
 
   const gifts = response.data.valueRanges[0].values.map(toGiftObject);
-  const gifters = response.data.valueRanges[1].values ? response.data.valueRanges[1].values.reduce((map, [giftId, guestKey]) => {
+  const giftGiftersMap = response.data.valueRanges[1].values ? response.data.valueRanges[1].values.reduce((map, [giftId, guestKey]) => {
     if (map.has(giftId)) {
       map.get(giftId).add(guestKey);
     } else {
@@ -45,7 +45,7 @@ export async function getAllGifts() {
     return map;
   }, new Map()) : new Map();
 
-  return { gifts, gifters };
+  return { gifts, giftGiftersMap, giftersTable: response.data.valueRanges[1] };
 }
 
 export async function chooseGift(giftId, guestKey) {
@@ -70,6 +70,47 @@ export async function chooseGift(giftId, guestKey) {
       valueInputOption: 'RAW',
       range: ['PresentesConvidados'],
       resource: { values: [[giftId, guestKey]] },
+  });
+
+  return { newCurrent: chosenGift.current };
+}
+
+export async function unchooseGift(giftId, guestKey) {
+  const { gifts, giftersTable } = await getAllGifts();
+
+  const chosenGiftIndex = gifts.findIndex(({ id }) => id === giftId);
+  const chosenGift = gifts[chosenGiftIndex];
+  chosenGift.current -= 1;
+  const giftRowNumber = chosenGiftIndex + 2;
+
+
+  await sheets.spreadsheets.values.update({
+    auth: jwtClient,
+    spreadsheetId: process.env.SPREADSHEET_ID,
+    valueInputOption: 'RAW',
+    range: [`Presentes!D${giftRowNumber}`],
+    requestBody: { values: [[chosenGift.current]] }
+  });
+
+  const jointTableRowIndex = giftersTable.values.findIndex(([id, key]) => id === giftId && key === guestKey) + 1;
+
+  sheets.spreadsheets.batchUpdate({
+    auth: jwtClient,
+    spreadsheetId: process.env.SPREADSHEET_ID,
+    requestBody: {
+      requests: [
+        {
+          deleteDimension: {
+            range: {
+              sheetId: '1428345834',
+              dimension: 'ROWS',
+              startIndex: jointTableRowIndex,
+              endIndex: jointTableRowIndex + 1,
+            },
+          },
+        }
+      ],
+    },
   });
 
   return { newCurrent: chosenGift.current };
