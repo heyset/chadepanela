@@ -23,6 +23,8 @@ app.use(cors());
 
 app.use(express.static(path.join(process.cwd(), 'src', 'public')));
 
+app.use(express.json());
+
 // views
 
 app.set('view engine', 'ejs');
@@ -38,6 +40,10 @@ app.get('/entrar', async (req, res) => {
 
 app.get('/presentes', async (req, res) => {
   res.render('pages/gift-list');
+});
+
+app.get('/rsvp', async (req, res) => {
+  res.render('pages/rsvp');
 });
 
 app.get('/detalhes', async (req, res) => {
@@ -160,6 +166,31 @@ app.get('/api/guest-name', async (req, res) => {
       specialMessage: guest.specialMessage,
     },
   });
+});
+
+app.get('/api/rsvp', async (req, res) => {
+  const { guest } = res.locals;
+
+  res.json({
+    ok: true,
+    rsvp: guest.rsvp,
+  });
+});
+
+app.post('/api/rsvp', async (req, res) => {
+  const { guest } = res.locals;
+  const { rsvp } = req.body;
+
+  if (!rsvp || !['pending', 'accepted', 'declined'].includes(rsvp)) {
+    throw new BusinessLogicError({ message: 'RSVP missing or wrong. Accepted values: "pending", "accepted", ""declined"', code: 5 });
+  }
+
+  if (rsvp === guest.rsvp.status) {
+    return res.json({ ok: true });
+  }
+
+  const newRSVP = await db.updateGuestRSVP(guest.key, rsvp);
+  res.json({ ok: true, rsvp: { status: newRSVP } });
 });
 
 app.post('/api/login', async (req, res) => {

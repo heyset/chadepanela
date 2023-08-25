@@ -1,0 +1,38 @@
+<%- include('../partials/head') %>
+<body class="rsvp-page">
+<%- include('../partials/header') %>
+
+<main>
+  <header class="page-title-header">
+    <h1>Chá de Panela</h1>
+    <div class="decoration">
+      <img src="/decoration.png" alt="">
+    </div>
+    <h2>Presença</h2>
+  </header>
+  <hr />
+  <section>
+    <h1>Presença - RSVP</h1>
+    <div id="rsvp-main-section" class="rsvp-main-section uninteractable">
+      <p>Você <strong id="confirm-text">ainda não confirmou sua presença</strong>.</p>
+      <p id="confirm-extra-text">Por gentileza, confirme se poderá estará presente até <strong>22/09/2023</strong> (uma semana antes)</p>
+      <ul class="rsvp-controls">
+        <li><button class="default-button" type="button" id="rsvp-confirm">Estarei presente!</button></li>
+        <li><button class="default-button" type="button" id="rsvp-decline">Não poderei comparecer</button></li>
+      </ul>
+    </div>
+  </section>
+  <hr />
+  <section>
+    <h1>Grupo de WhatsApp</h1>
+    <p>Caso esteja nos planos comparecer, entre no grupo de WhatsApp abaixo para receber atualizações (e jogar conversa fora):</p>
+    <div class="rsvp-controls">
+      <button type="button">Zap Zeppelin</button>
+    </div>
+  </section>
+</main>
+
+<script src="/rsvp.js" defer></script>
+<%- include('../partials/footer') %>
+</body>
+</html>

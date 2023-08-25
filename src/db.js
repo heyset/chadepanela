@@ -124,7 +124,7 @@ export async function findGuest(key) {
   const response = await sheets.spreadsheets.values.get({
     auth: jwtClient,
     spreadsheetId: process.env.SPREADSHEET_ID,
-    range: ['Convidados!A2:F'],
+    range: ['Convidados!A2:G'],
     sheets: []
   });
 
@@ -139,6 +139,12 @@ export async function findGuest(key) {
     return null;
   }
 
+  const rsvpDictionary = {
+    Pendente: 'pending',
+    Ausente: 'declined',
+    Confirmado: 'accepted',
+  };
+
   const guest = {
     name: guestColumns[0],
     surname: guestColumns[1],
@@ -146,9 +152,42 @@ export async function findGuest(key) {
     contact: guestColumns[3],
     key: guestColumns[4],
     specialMessage: guestColumns[5],
+    rsvp: {
+      status: rsvpDictionary[guestColumns[6]] || rsvpDictionary['Pendente'],
+      message: guestColumns[6],
+    },
   };
 
   return guest;
+}
+
+export async function updateGuestRSVP(key, rsvp) {
+  const allGuestsResponse = await sheets.spreadsheets.values.get({
+    auth: jwtClient,
+    spreadsheetId: process.env.SPREADSHEET_ID,
+    range: ['Convidados!A2:G'],
+    sheets: []
+  });
+  const guestIndex = allGuestsResponse.data.values.findIndex((guestData) => guestData[4] === key);
+
+  const rsvpDictionary = {
+    pending: 'Pendente',
+    declined: 'Ausente',
+    accepted: 'Confirmado',
+  };
+  const newRSVP = rsvpDictionary[rsvp];
+
+  const rowNumber = guestIndex + 2;
+
+  await sheets.spreadsheets.values.update({
+    auth: jwtClient,
+    spreadsheetId: process.env.SPREADSHEET_ID,
+    valueInputOption: 'RAW',
+    range: [`Convidados!G${rowNumber}`],
+    requestBody: { values: [[newRSVP]] }
+  });
+
+  return { newRSVP };
 }
 
 function toGiftObject(row) {
