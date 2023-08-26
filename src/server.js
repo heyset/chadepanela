@@ -7,6 +7,8 @@ import { BusinessLogicError } from './business-logic-error.js';
 
 export const app = express();
 
+const lockedGifts = new Map();
+
 // config
 
 app.use(helmet({
@@ -131,7 +133,24 @@ app.post('/api/gifts/choice/:id', async (req, res) => {
     });
   }
 
+  if (lockedGifts.has(chosenGift.id)) {
+    const currentLock = lockedGifts.get(chosenGift.id);
+    if (currentLock <= 0) {
+      throw new BusinessLogicError({
+        message: 'Cannot choose this gift, it has already reached maximum',
+        code: 1,
+      });
+    }
+    lockedGifts.set(chosenGift.id, currentLock - 1);
+  } else {
+    lockedGifts.set(chosenGift.id, chosenGift.maximum - (chosenGift.current + 1));
+  }
+
   const newCurrent = await db.chooseGift(giftId, guestKey);
+
+  if (lockedGifts?.get(chosenGift.id) <= 0) {
+    lockedGifts.delete(chosenGift.id);
+  }
 
   res.json({ newCurrent, ok: true });
 });
