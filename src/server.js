@@ -50,7 +50,7 @@ app.get('/rsvp', async (req, res) => {
 });
 
 app.get('/detalhes', async (req, res) => {
-  res.render('pages/details');
+  res.render('pages/details', { mapsKey: process.env.GOOGLE_MAPS_API_KEY });
 });
 
 app.use(async (err, req, res, next) => {
