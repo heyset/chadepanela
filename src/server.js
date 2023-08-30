@@ -62,6 +62,11 @@ app.use(async (err, req, res, next) => {
 
 // // api
 
+app.get('/api/new-id', async (req, res) => {
+  const id = db.generateId();
+  res.json({ id });
+});
+
 app.use(async (req, res, next) => {
   const key = req.headers.authorization;
   if (!key)
@@ -169,11 +174,6 @@ app.delete('/api/gifts/choice/:id', async (req, res) => {
   await db.unchooseGift(giftId, guestKey);
 
   res.json({ ok: true });
-});
-
-app.get('/api/new-id', async (req, res) => {
-  const id = db.generateId();
-  res.json({ id });
 });
 
 app.get('/api/guest-name', async (req, res) => {
