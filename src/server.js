@@ -37,6 +37,11 @@ app.get('/', async (req, res) => {
   res.render('pages/home');
 });
 
+
+app.get('/manutencao', async (req, res) => {
+  res.render('pages/maintenance');
+});
+
 app.get('/entrar', async (req, res) => {
   res.render('pages/login');
 });
@@ -184,6 +189,19 @@ app.get('/api/guest-name', async (req, res) => {
       name: guest.name,
       surname: guest.surname,
       specialMessage: guest.specialMessage,
+    },
+  });
+});
+
+app.get('/api/me', async (req, res) => {
+  const { guest } = res.locals;
+  res.json({
+    ok: true,
+    guest: {
+      name: guest.name,
+      surname: guest.surname,
+      isBetaTester: guest.isBetaTester,
+      rsvp: guest.rsvp,
     },
   });
 });

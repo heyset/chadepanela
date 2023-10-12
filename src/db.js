@@ -124,7 +124,7 @@ export async function findGuest(key) {
   const response = await sheets.spreadsheets.values.get({
     auth: jwtClient,
     spreadsheetId: process.env.SPREADSHEET_ID,
-    range: ['Convidados!A2:G'],
+    range: ['Convidados!A2:I'],
     sheets: []
   });
 
@@ -156,6 +156,7 @@ export async function findGuest(key) {
       status: rsvpDictionary[guestColumns[6]] || rsvpDictionary['Pendente'],
       message: guestColumns[6],
     },
+    isBetaTester: guestColumns[8] === 'Sim',
   };
 
   return guest;
