@@ -519,6 +519,81 @@ section.details
   font-weight: 300;
 }
 
+section.gifts-explainer
+{
+  max-width: 640px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+section.gifts-explainer h1
+{
+  font-size: 1.25rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+section.gifts-explainer h2
+{
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+section.questions
+{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+section.questions .faq-question
+{
+  cursor: pointer;
+  border: 1px solid #ddd;
+  border-bottom: none;
+  padding: 10px 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+section.questions .faq-question:last-child
+{
+  border-bottom: 1px solid #ddd;
+}
+
+section.gifts-explainer input[type="radio"]
+{
+  display: none;
+}
+
+section.questions .faq-question .details
+{
+  height: 0;
+  overflow: hidden;
+  transition: all 120ms linear;
+  transform-origin: top;
+  transform: scaleY(0);
+}
+
+section.questions input[type="radio"]:checked ~ .details
+{
+  height: auto;
+  transform: scaleY(1);
+}
+
+#home-main-section
+{
+  max-width: 760px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .details-page main
 {
   max-width: 640px;

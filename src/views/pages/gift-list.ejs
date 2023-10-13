@@ -5,12 +5,57 @@
 
 <main>
   <header class="page-title-header">
-    <h1>Chá de Panela</h1>
+    <h1>Casamento</h1>
     <div class="decoration">
       <img src="/decoration.png" alt="">
     </div>
     <h2>Lista de Presentes</h2>
   </header>
+  <section class="gifts-explainer">
+    <label for="faq-none">
+      <h1>Dúvidas frequentes</h1>
+      <input type="radio" id="faq-none" name="faq" value="faq-none" checked>
+    </label>
+    <section class="questions">
+      <label for="faq-store" class="faq-question">
+        <input type="radio" id="faq-store" name="faq" value="faq-store">
+        <h2>Ao clicar no botão, o site vai me redirecionar para uma loja virtual?</h2>
+        <div class="details">
+          <p>Não. O objetivo da lista é evitarmos presentes repetidos, mas você tem a liberdade de escolher onde e como comprar.</p>
+        </div>
+      </label>
+      <label for="faq-changed-mind" class="faq-question">
+        <input type="radio" id="faq-changed-mind" name="faq" value="faq-changed-mind">
+        <h2>E se eu mudar de ideia?</h2>
+        <div class="details">
+          <p>Tudo bem! O botão de "Escolher presente" torna-se um "Mudar de ideia" depois que você clica nele.</p>
+        </div>
+      </label>
+      <label for="faq-address" class="faq-question">
+        <input type="radio" id="faq-address" name="faq" value="faq-address">
+        <h2>Como faço para pedir para entregar na casa de vocês?</h2>
+        <div class="details">
+          <p>Mande uma mensagem e nós te passamos o endereço ;)</p>
+        </div>
+      </label>
+      <label for="faq-money" class="faq-question">
+        <input type="radio" id="faq-money" name="faq" value="faq-money">
+        <h2>Posso presentear diretamente com dinheiro?</h2>
+        <div class="details">
+          <p>Sim! Você pode enviar um pix diretamente para a conta do Matheus abaixo:</p>
+          <p>c.inaciomatheus@gmail.com</p>
+        </div>
+      </label>
+      <label for="faq-amount" class="faq-question">
+        <input type="radio" id="faq-amount" name="faq" value="faq-amount">
+        <h2>Com qual valor devo presentear se optar por enviar dinheiro diretamente?</h2>
+        <div class="details">
+          <p>Vai do seu orçamento.</p>
+          <p>Caso queira ter uma base: o casamento vai nos custar entre 350 e 550 reais por convidado (ainda falta fechar as contas).</p>
+        </div>
+      </label>
+    </section>
+  </section>
   <section class="gifts">
     <ol id="gift-list-container">
     </ol>

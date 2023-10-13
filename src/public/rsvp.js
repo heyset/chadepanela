@@ -57,8 +57,8 @@ function updateElementsText(rsvp) {
   confirmText.innerHTML = confirmTextDictionary[rsvp.status];
   
   const confirmExtraTextDictionary = {
-    pending: 'Por gentileza, confirme se poderá estará presente até <strong>22/09/2023</strong> (uma semana antes)',
-    declined: 'É uma pena, mas nós entendemos... Caso mude de ideia até <strong>22/09/2023</strong>, basta clicar no botão abaixo',
+    pending: 'Por gentileza, confirme se poderá estará presente até <strong>18/11/23</strong> (três semanas antes)',
+    declined: 'É uma pena, mas nós entendemos... Caso mude de ideia até <strong>18/11/23</strong>, basta clicar no botão abaixo',
     accepted: 'Será um prazer receber você! Não se esqueça de entrar no grupo do WhatsApp.',
   };
   confirmExtraText.innerHTML = confirmExtraTextDictionary[rsvp.status];

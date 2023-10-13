@@ -40,7 +40,6 @@ async function validateBetaTesting() {
     }
   
     const guest = response.guest;
-    console.log(guest);
   
     if (!guest.isBetaTester && !window.location.pathname.includes('manutencao'))
     {
