@@ -19,33 +19,3 @@ else if (!key && !isInLoginOrLogoutPage)
 {
   window.location.replace('/entrar');
 }
-
-async function validateBetaTesting() {
-  if (key)
-  {
-    const response = await fetch(
-      '/api/me',
-      {
-        headers: {
-          Authorization: window.localStorage.getItem('key'),
-        },
-      }
-    ).then((res) => res.json());
-    
-    if (!response.ok && (response.error.code === 401 || response.error.code === 403)) {
-      alert('Você está deslogado! Tente entrar novamente com sua chave');
-      localStorage.removeItem('key');
-      window.location.replace('/entrar');
-      return;
-    }
-  
-    const guest = response.guest;
-  
-    if (!guest.isBetaTester && !window.location.pathname.includes('manutencao'))
-    {
-      window.location.replace('/manutencao');
-    }
-  }
-}
-
-validateBetaTesting();
