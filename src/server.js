@@ -39,7 +39,7 @@ app.get('/', async (req, res) => {
 
 
 app.get('/manutencao', async (req, res) => {
-  res.render('pages/home');
+  res.render('pages/maintenance');
 });
 
 app.get('/entrar', async (req, res) => {
